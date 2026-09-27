@@ -1,7 +1,6 @@
-# 🚀 VectorVault RAG Platform
+# VectorVault RAG Platform
 
-> **Multi-Tenant RAG, Vector Search Engine & Interactive Voice Assistant**  
-> *A full-stack AI platform featuring modular Python FastAPI microservices, a Node.js/Express multi-tenant API gateway with PostgreSQL & pgvector, and a high-performance React 19 dashboard.*
+Multi-tenant RAG and vector search platform with an interactive voice assistant. Python FastAPI microservices handle the AI workloads, a Node.js/Express gateway with PostgreSQL and pgvector enforces multi-tenancy, and a React 19 dashboard provides the UI.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
@@ -12,28 +11,28 @@
 
 ---
 
-## 📌 Executive Summary
+## Summary
 
-**VectorVault RAG** is an end-to-end, multi-tenant Retrieval-Augmented Generation (RAG) platform engineered for enterprise scalability, real-time semantic search, and multimodal interaction. It enables organizations to create isolated AI applications, ingest diverse document corpora, execute hybrid two-stage vector retrieval, and interact through both text and low-latency voice streams.
+VectorVault RAG is a multi-tenant Retrieval-Augmented Generation platform: organizations can create isolated AI applications, ingest document corpora, run two-stage hybrid vector retrieval, and interact through text or voice.
 
-Built with clean separation of concerns, VectorVault demonstrates production-ready AI engineering: modular Python microservices handle computationally heavy AI tasks (embedding, reranking, transcription, LLM inference), while a Node.js/Prisma backend enforces strict multi-tenancy, authorization, database indexing, and real-time WebSocket communication.
-
----
-
-## 🌟 Key Features
-
-- 🏢 **Multi-Tenant Architecture**: Complete data isolation across tenants, applications (`apps`), document corpora (`groups`), and vector chunks. Supports both user session tokens (JWT) and programmatically isolated `X-API-Key` access.
-- ⚡ **Two-Stage Hybrid RAG Pipeline**: First-stage vector search via PostgreSQL `pgvector` (1024-dimensional embeddings via Voyage AI) paired with a second-stage cross-encoder **Voyage Reranker** for maximum retrieval precision.
-- 🎙️ **Full-Duplex Interactive Voice Assistant**: Real-time voice interaction leveraging Voice Activity Detection (VAD), **Whisper Large v3 / Turbo** speech-to-text, LLM context generation, and Text-to-Speech (TTS) response synthesis.
-- 🧩 **Decoupled Python AI Microservices**: Modular FastAPI services for document text extraction, semantic chunking, embeddings, reranking, LLM response generation (**Kimi K3** & **OpenAI**), and translation.
-- 📊 **Real-Time Data Pipeline & Visualizer**: Interactive UI components that provide visual transparency into document extraction, text chunking, embedding generation, and vector indexing.
-- 🎨 **Modern UI/UX**: Built with React 19, Vite, Tailwind CSS v4, and dynamic WebGL/Canvas shader animations for voice mode.
+Python microservices handle the compute-heavy AI tasks (embedding, reranking, transcription, LLM inference), while the Node.js/Prisma backend handles multi-tenancy, authorization, database access, and real-time WebSocket communication.
 
 ---
 
-## 📸 Screenshots
+## Key features
 
-> _Add screenshots/GIFs below before sharing this repo — visuals convert far better than text for a first impression._
+- **Multi-tenant architecture** — data isolation across tenants, applications (`apps`), document corpora (`groups`), and vector chunks. Supports JWT session auth and `X-API-Key` programmatic access.
+- **Two-stage hybrid RAG pipeline** — first-stage vector search via PostgreSQL `pgvector` (1024-dim Voyage AI embeddings), second-stage reranking via the Voyage cross-encoder reranker.
+- **Full-duplex voice assistant** — voice activity detection, Whisper Large v3/Turbo speech-to-text, LLM response generation, and TTS synthesis.
+- **Decoupled Python AI microservices** — FastAPI services for text extraction, chunking, embeddings, reranking, LLM generation (Kimi K3 and OpenAI), and translation.
+- **Real-time pipeline visualizer** — UI components showing document extraction, chunking, embedding, and indexing as they happen.
+- **Frontend** — React 19, Vite, Tailwind CSS v4, with WebGL/Canvas shader animations for voice mode.
+
+---
+
+## Screenshots
+
+_Add screenshots/GIFs here before sharing this repo._
 
 | Dashboard / Corpora Manager | RAG Chat Interface |
 | :---: | :---: |
@@ -45,27 +44,27 @@ Built with clean separation of concerns, VectorVault demonstrates production-rea
 
 ---
 
-## 🏗️ System Architecture
+## Architecture
 
 ```mermaid
 flowchart TB
-    subgraph Frontend ["🎨 Frontend (React 19 + Vite + Tailwind v4)"]
+    subgraph Frontend ["Frontend (React 19 + Vite + Tailwind v4)"]
         UI["Tenant Dashboard / RAG Chat / Voice Mode"]
         VAD["Web Voice Activity Detection (VAD)"]
     end
 
-    subgraph Gateway ["⚡ Backend API Gateway (Node.js + Express 5 + Prisma)"]
+    subgraph Gateway ["Backend API Gateway (Node.js + Express 5 + Prisma)"]
         Auth["Auth & Tenant Middleware (JWT / X-API-Key)"]
         Sockets["Socket.IO Server (Real-time Stream)"]
         DbLogic["Prisma ORM & Business Logic"]
     end
 
-    subgraph Database ["💾 Database (PostgreSQL + pgvector)"]
+    subgraph Database ["Database (PostgreSQL + pgvector)"]
         TenantDB[("Tenants, Apps, Groups, Docs")]
         VectorStore[("Chunks Table\n1024-dim pgvector index")]
     end
 
-    subgraph Microservices ["🐍 AI Microservices (Python FastAPI)"]
+    subgraph Microservices ["AI Microservices (Python FastAPI)"]
         ExtractService["Extractor (PDF, DOCX, TXT, HTML)"]
         ChunkService["Semantic Chunking Engine"]
         EmbedService["Voyage AI Vector Embedder (1024d)"]
@@ -83,116 +82,111 @@ flowchart TB
 
 ---
 
-## 🛠️ Technology Stack
+## Tech stack
 
-| Layer | Technologies & Tools |
+| Layer | Technologies |
 | :--- | :--- |
-| **Frontend Dashboard** | React 19, Vite 8, Tailwind CSS v4, TanStack React Query, React Router v7, React Syntax Highlighter, Lucide Icons |
-| **Backend Gateway** | Node.js, Express v5, Prisma ORM, Socket.IO, Zod Validation, Better Auth / JWT, Multer |
-| **Primary Database** | PostgreSQL, `pgvector` (1024-dimensional vector similarity indexing), Raw SQL Prisma queries |
-| **AI Microservices** | Python 3.10+, FastAPI, Uvicorn, Pydantic, PyMuPDF, Trafilatura, python-docx/pptx |
-| **AI Providers & Models** | **Embeddings**: Voyage AI (`voyage-3-lite`), **Reranker**: Voyage Reranker, **LLM**: Kimi K3, OpenAI GPT, **Speech**: Whisper Large v3 / Turbo, Custom TTS |
+| Frontend | React 19, Vite 8, Tailwind CSS v4, TanStack React Query, React Router v7, React Syntax Highlighter, Lucide Icons |
+| Backend gateway | Node.js, Express v5, Prisma ORM, Socket.IO, Zod validation, Better Auth / JWT, Multer |
+| Database | PostgreSQL, `pgvector` (1024-dim vector similarity indexing), raw SQL for vector queries |
+| AI microservices | Python 3.10+, FastAPI, Uvicorn, Pydantic, PyMuPDF, Trafilatura, python-docx/pptx |
+| AI providers | Embeddings: Voyage AI (`voyage-3-lite`); reranker: Voyage Reranker; LLM: Kimi K3, OpenAI GPT; speech: Whisper Large v3/Turbo, custom TTS |
 
 ---
 
-## 📁 Repository Structure
+## Repository structure
 
 ```
 vector_valut-RAG/
-├── microservices/                  # 🐍 Python FastAPI AI Microservices
+├── microservices/                  # Python FastAPI AI microservices
 │   ├── server.py                   # Main FastAPI server entry point
 │   └── app/
 │       ├── api/                    # Microservice routers (chunking, embedding, reranking, generation, voice)
 │       ├── models/                 # Pydantic request/response schemas
 │       ├── providers/              # Integration with Voyage AI, Kimi K3, OpenAI, Whisper
-│       └── services/               # Text-to-Speech & translation helpers
+│       └── services/               # Text-to-speech & translation helpers
 └── vector_valut/
-    ├── backend/                    # ⚡ Node.js Express & Prisma API Gateway
+    ├── backend/                    # Node.js Express & Prisma API gateway
     │   ├── app/
     │   │   ├── server.js           # Express server entry point
     │   │   ├── socket.js           # Socket.IO real-time event handlers
     │   │   └── src/
-    │   │       ├── controllers/    # App, Tenant, RAG Ingestion, Retrieval, Voice Controllers
+    │   │       ├── controllers/    # App, tenant, RAG ingestion, retrieval, voice controllers
     │   │       ├── middleware/     # Auth (JWT verification & X-API-Key validation)
     │   │       └── utility/        # HTTP client helpers communicating with microservices
     │   ├── prisma/
     │   │   └── schema.prisma       # Prisma multi-tenant data model with pgvector
     │   └── multi-tenant-schema.md  # Multi-tenant isolation specifications
     └── frontend/
-        └── app/                    # 🎨 React 19 Frontend Dashboard
+        └── app/                    # React 19 frontend dashboard
             └── src/
-                ├── components/     # Chat interface, Voice mode shaders, File uploaders
+                ├── components/     # Chat interface, voice mode shaders, file uploaders
                 ├── pages/          # Dashboard, Corpora Manager, RAG Chat, Voice Assistant
                 └── apis/           # Axios client modules
 ```
 
 ---
 
-## 🔄 Complete RAG Data Flow Pipeline
+## RAG data flow
 
-### 1. Document Ingestion & Vector Indexing
-1. **Upload**: User uploads files (PDF, DOCX, TXT) via the Corpora Manager UI.
-2. **Extraction**: File is sent to the Python `extraction` microservice to extract raw text and metadata.
-3. **Chunking**: Raw text is passed to the `chunking` microservice to create structured segments.
-4. **Embedding**: Text chunks are sent to the `embedding` microservice to generate **1,024-dimensional Voyage AI vectors**.
-5. **Storage**: Chunks, metadata, and vectors are saved into PostgreSQL via Prisma raw SQL using `pgvector`.
+### Document ingestion & vector indexing
+1. **Upload** — user uploads files (PDF, DOCX, TXT) via the Corpora Manager UI.
+2. **Extraction** — the Python extraction microservice pulls raw text and metadata.
+3. **Chunking** — raw text is split into structured segments.
+4. **Embedding** — chunks are converted into 1024-dimensional Voyage AI vectors.
+5. **Storage** — chunks, metadata, and vectors are saved in PostgreSQL via `pgvector`.
 
-### 2. Two-Stage Retrieval & Answer Generation
-1. **Query Embedding**: User submits a question. The query text is converted into a 1024-dim vector.
-2. **Candidate Retrieval (Stage 1)**: PostgreSQL runs cosine vector similarity search (`<=>` operator) restricted by `tenantId`, `appId`, and `groupId` to fetch the top candidate chunks (e.g., top 20).
-3. **Cross-Encoder Reranking (Stage 2)**: Candidates are passed to the **Voyage Reranker** microservice, which scores semantic relevance against the query and filters down to the top K chunks (e.g., top 5).
-4. **LLM Generation**: The reranked context and prompt are passed to **Kimi K3** (or OpenAI) to synthesize a grounded answer with source citations.
-
----
-
-## 🎙️ Low-Latency Voice Assistant Engine
-
-VectorVault includes an interactive Voice Assistant interface designed for seamless spoken dialogue:
-- **Client Voice Detection**: Built-in Voice Activity Detection (VAD) monitors user speech in real-time.
-- **Audio Streaming**: Spoken audio is sent via WebSockets or REST to the Python `transcribe` microservice.
-- **Speech-to-Text**: Transcribed using OpenAI **Whisper Large v3** / **v3 Turbo**.
-- **Contextual Dialogue & Synthesis**: The transcribed prompt feeds into the RAG engine, and response text is converted back to speech via TTS.
-- **Visual Feedback**: Real-time GLSL canvas shader animation dynamically reacts to voice interaction states (listening, processing, speaking).
+### Two-stage retrieval & answer generation
+1. **Query embedding** — the user's question is converted into a 1024-dim vector.
+2. **Candidate retrieval** — PostgreSQL runs cosine similarity search (`<=>`) scoped by `tenantId`, `appId`, and `groupId`, returning top candidates (e.g. top 20).
+3. **Reranking** — candidates are scored by the Voyage reranker and filtered to the top K (e.g. top 5).
+4. **Generation** — the reranked context is passed to Kimi K3 (or OpenAI) to produce a grounded answer with citations.
 
 ---
 
-## 🔒 Multi-Tenant Security & Isolation Model
+## Voice assistant
 
-VectorVault implements multi-tenancy at every tier of the database and application:
+- Client-side voice activity detection (VAD) monitors speech in real time.
+- Audio is streamed via WebSockets/REST to the Python transcription microservice.
+- Speech-to-text via Whisper Large v3/Turbo.
+- The transcribed prompt feeds the RAG pipeline; the response is converted back to speech via TTS.
+- A GLSL canvas shader animates listening/processing/speaking states.
 
-| Level | Isolation Mechanism |
+---
+
+## Multi-tenant isolation model
+
+| Level | Isolation mechanism |
 | :--- | :--- |
-| **Tenant Level** | `Tenant` record with dedicated tenant UUID. All database tables store a `tenantId`. |
-| **App Level** | `App` record scoped to a tenant. Allows building multiple AI bots (e.g., HR Bot, Support Bot) under one tenant. |
-| **Corpus (Group) Level** | `Group` record scoping document sets to specific applications. |
-| **API Authentication** | **JWT Auth**: Protects administrative dashboard routes.<br>**X-API-Key Auth**: Protects external query/upload endpoints used by embedded widgets or external APIs. |
+| Tenant | `Tenant` record with a dedicated UUID; every table stores a `tenantId`. |
+| App | `App` record scoped to a tenant, allowing multiple bots (e.g. HR Bot, Support Bot) per tenant. |
+| Corpus (Group) | `Group` record scoping document sets to specific applications. |
+| API auth | JWT for dashboard routes; `X-API-Key` for external query/upload endpoints. |
 
 ---
 
-## 🚀 Getting Started
+## Getting started
 
 ### Prerequisites
-- **Node.js**: v18+ or Bun
-- **Python**: v3.10+
-- **PostgreSQL**: v15+ with `pgvector` extension enabled
-- **API Keys**: Voyage AI API Key and OpenAI API Key (or NVIDIA-hosted Kimi K3)
+- Node.js v18+ or Bun
+- Python 3.10+
+- PostgreSQL 15+ with the `pgvector` extension
+- Voyage AI API key and OpenAI API key (or NVIDIA-hosted Kimi K3)
 
-### Required API Keys
+### Required API keys
 
 | Key | Purpose | Required |
 | :--- | :--- | :--- |
 | `VOYAGE_API_KEY` | Embeddings & reranking | Yes |
 | `OPENAI_API_KEY` | LLM answer generation | Yes (or `NVIDIA_API_KEY`) |
 | `NVIDIA_API_KEY` | LLM generation via Kimi K3 | Alternative to OpenAI |
-| `RAG_SERVICE_API_KEY` | Shared secret between the backend gateway and Python microservices | Yes |
+| `RAG_SERVICE_API_KEY` | Shared secret between the gateway and Python microservices | Yes |
 | `GROQ_API_KEY` | Voice assistant text-to-speech | Voice mode only |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth login | Google sign-in only |
 
 Get keys from [Voyage AI](https://www.voyageai.com/), [OpenAI](https://platform.openai.com/), [NVIDIA NIM](https://build.nvidia.com/), and [Groq](https://console.groq.com/).
 
----
-
-### 1. Python AI Microservices Setup
+### 1. Python AI microservices
 
 ```bash
 cd microservices
@@ -204,7 +198,7 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Configure Environment
+# Configure environment
 cp .env.example .env   # Fill in VOYAGE_API_KEY, OPENAI_API_KEY, RAG_SERVICE_API_KEY, etc.
 
 # Start FastAPI server
@@ -212,59 +206,45 @@ python3 server.py
 # Server runs at http://localhost:8000
 ```
 
----
-
-### 2. Backend Gateway Setup
+### 2. Backend gateway
 
 ```bash
 cd vector_valut/backend
 
-# Install dependencies
 npm install
-
 cp .env.example .env   # Fill in DATABASE_URL, JWT_SECRET_KEY, RAG_SERVICE_API_KEY, etc.
 
-# Apply Prisma Migrations
 npx prisma migrate dev
 
-# Start development server
 npm run dev
 # Backend runs at http://localhost:5000
 ```
 
----
-
-### 3. Frontend Dashboard Setup
+### 3. Frontend dashboard
 
 ```bash
 cd vector_valut/frontend/app
 
-# Install dependencies
 npm install
-
-# Start Vite dev server
 npm run dev
 # Frontend runs at http://localhost:5173
 ```
 
 ---
 
-## 🧠 Design Decisions & Trade-offs
+## Design decisions & trade-offs
 
-- **Two-stage retrieval instead of vector search alone**: Raw cosine similarity over-fetches semantically similar but contextually weak matches. Adding a cross-encoder reranker as a second pass trades a small latency cost for materially better precision on the chunks that actually reach the LLM.
-- **Prisma raw SQL for vector queries**: Prisma's query builder doesn't support `pgvector`'s `<=>` distance operator natively, so retrieval queries drop to raw SQL while the rest of the app (tenant/app/group CRUD) stays on the Prisma ORM — keeping type safety everywhere it's available without blocking on ORM limitations.
-- **Python microservices split from the Node gateway**: document extraction, chunking, and calls to embedding/reranking/transcription/LLM providers benefit from Python's data and ML tooling ecosystem, while the gateway's job — auth, tenancy, request orchestration, WebSockets — is I/O-bound and better served by Node's event loop. Splitting them lets each service scale independently.
-- **Tenant → App → Group hierarchy**: modeled after real multi-tenant SaaS needs — one tenant can run several distinct bots (e.g., HR Bot, Support Bot) each with its own isolated document corpus, rather than flattening everything under a single tenant-level namespace.
-
----
-
-## 📄 License & Contact
-
-This project is licensed under the [MIT License](LICENSE) and built for demonstration and showcase purposes.
-
-- **Developer**: Mahesh N.
-- **Email**: [maheshnmahesh567@gmail.com](mailto:maheshnmahesh567@gmail.com)
-- **Repository**: [VectorVault RAG Platform](https://github.com/maheshn567/vector_valut-RAG-)
+- **Two-stage retrieval instead of vector search alone** — raw cosine similarity over-fetches semantically similar but contextually weak matches. A cross-encoder reranker as a second pass trades a small latency cost for better precision on the chunks that reach the LLM.
+- **Raw SQL for vector queries** — Prisma's query builder doesn't support `pgvector`'s `<=>` distance operator natively, so retrieval queries use raw SQL while the rest of the app (tenant/app/group CRUD) stays on the Prisma ORM.
+- **Python microservices split from the Node gateway** — extraction, chunking, and calls to embedding/reranking/transcription/LLM providers benefit from Python's ML tooling, while the gateway's job (auth, tenancy, orchestration, WebSockets) is I/O-bound and better served by Node's event loop. Splitting them lets each scale independently.
+- **Tenant → App → Group hierarchy** — modeled on multi-tenant SaaS needs: one tenant can run several distinct bots, each with its own isolated document corpus, instead of flattening everything under a single tenant-level namespace.
 
 ---
-*VectorVault RAG — Enterprise Multi-Tenant AI Search & Retrieval Architecture*
+
+## License & contact
+
+Licensed under the [MIT License](LICENSE).
+
+- Developer: Mahesh N
+- Email: [maheshnmahesh567@gmail.com](mailto:maheshnmahesh567@gmail.com)
+- Repository: [VectorVault RAG Platform](https://github.com/maheshn567/vector_valut-RAG-)
