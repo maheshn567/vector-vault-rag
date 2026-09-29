@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/453aa750-4580-42d5-b565-d95323fbcd29
+
 # VectorVault RAG Platform
 
 Multi-tenant RAG and vector search platform with an interactive voice assistant. Python FastAPI microservices handle the AI workloads, a Node.js/Express gateway with PostgreSQL and pgvector enforces multi-tenancy, and a React 19 dashboard provides the UI.
