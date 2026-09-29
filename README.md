@@ -1,6 +1,6 @@
 
 
-https://github.com/user-attachments/assets/453aa750-4580-42d5-b565-d95323fbcd29
+
 
 # VectorVault RAG Platform
 
