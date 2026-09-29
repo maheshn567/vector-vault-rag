@@ -7,7 +7,6 @@ Multi-tenant RAG and vector search platform with an interactive voice assistant.
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-pgvector-4169E1?logo=postgresql&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
@@ -241,10 +240,8 @@ npm run dev
 
 ---
 
-## License & contact
-
-Licensed under the [MIT License](LICENSE).
+## Contact
 
 - Developer: Mahesh N
 - Email: [maheshnmahesh567@gmail.com](mailto:maheshnmahesh567@gmail.com)
-- Repository: [VectorVault RAG Platform](https://github.com/maheshn567/vector_valut-RAG-)
+- Repository: [VectorVault RAG Platform](https://github.com/maheshn567/vector-vault-rag)
