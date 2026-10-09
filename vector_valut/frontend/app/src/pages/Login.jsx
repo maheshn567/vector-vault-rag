@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { loginTenant, registerTenant } from "../apis/tenant.api";
 import { signInWithGoogle } from "../apis/google-auth.api";
@@ -8,7 +8,7 @@ import { toast } from "sonner";
 export default function Login() {
   const location = useLocation();
   const isSignUp = location.pathname === "/signup";
-  const { checkAuth } = useAuth();
+  const { tenant, isLoading: authLoading, checkAuth } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +17,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+
+  // Already signed in (e.g. just landed on a tenant subdomain): skip the form.
+  useEffect(() => {
+    if (!authLoading && tenant) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [authLoading, tenant, navigate]);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -55,8 +62,8 @@ export default function Login() {
             toast.success("Successfully logged in!");
             // Re-syncs tenant context from the now-authenticated cookie, and
             // redirects to the tenant's vanity subdomain if one is configured.
-            await checkAuth();
-            navigate("/dashboard");
+            const redirected = await checkAuth("/dashboard");
+            if (!redirected) navigate("/dashboard");
           } else {
             navigate("/signin");
           }
@@ -84,8 +91,8 @@ export default function Login() {
           toast.success("Successfully logged in!");
           // Re-syncs tenant context from the now-authenticated cookie, and
           // redirects to the tenant's vanity subdomain if one is configured.
-          await checkAuth();
-          navigate("/dashboard");
+          const redirected = await checkAuth("/dashboard");
+          if (!redirected) navigate("/dashboard");
         } else {
           toast.error(response.message || "Invalid credentials. Please try again.");
         }

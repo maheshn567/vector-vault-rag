@@ -41,8 +41,11 @@ export function AuthContextProvider({ children }) {
     return false;
   };
 
-  // Re-verify the current session with backend on app boot
-  const checkAuth = async () => {
+  // Re-verify the current session with backend on app boot.
+  // Returns true if it started a full-page redirect to another host, so callers
+  // must not navigate afterwards. `targetPath` overrides the path used for the
+  // vanity-subdomain redirect (e.g. "/dashboard" right after signing in).
+  const checkAuth = async (targetPath) => {
     try {
       const response = await getTenant();
       
@@ -71,29 +74,29 @@ export function AuthContextProvider({ children }) {
 
           if (expectedHost && currentHost !== expectedHost) {
             const port = keepPort && window.location.port ? `:${window.location.port}` : "";
-            window.location.replace(
-              `http://${expectedHost}${port}${window.location.pathname}${window.location.search}`
-            );
-            return;
+            const path = targetPath ?? `${window.location.pathname}${window.location.search}`;
+            window.location.replace(`http://${expectedHost}${port}${path}`);
+            return true;
           }
         }
 
         setTenant(tenantData);
       } else {
         clearSession();
-        if (redirectToBaseDomainIfUnauthed()) return;
+        if (redirectToBaseDomainIfUnauthed()) return true;
       }
     } catch (error) {
       // 401/403 just means no active session yet — expected for anonymous visitors
       if (error.status === 401 || error.status === 403) {
         clearSession();
-        if (redirectToBaseDomainIfUnauthed()) return;
+        if (redirectToBaseDomainIfUnauthed()) return true;
       } else {
         console.error("Authentication session check failed:", error);
       }
     } finally {
       setIsLoading(false);
     }
+    return false;
   };
 
   useEffect(() => {
